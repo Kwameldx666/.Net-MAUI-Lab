@@ -1,0 +1,62 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Family_Rewards_Bank.ViewModels"
+             x:Class="Family_Rewards_Bank.Organizer"
+             BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#121212}"
+             Title="My Organizer">
+
+    <ContentPage.BindingContext>
+        <vm:OrganizerViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="20" Spacing="20">
+
+        <Label Text="My Organizer"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="{AppThemeBinding Light=#222, Dark=#EEE}" />
+
+        <DatePicker Date="{Binding SelectedDate}"
+                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                    BackgroundColor="{AppThemeBinding Light=White, Dark=#222}" />
+
+        <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+            <Button Text="Add"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    WidthRequest="90"
+                    Command="{Binding AddEventAsyncCommand}" />
+
+            <Button Text="Remove"
+                    BackgroundColor="#E53935"
+                    TextColor="White"
+                    WidthRequest="90"
+                    Command="{Binding RemoveEventCommand}" />
+
+            <Button Text="Update"
+                    BackgroundColor="#007ACC"
+                    TextColor="White"
+                    WidthRequest="90"
+                    Command="{Binding UpdateEventAsyncCommand}" />
+        </HorizontalStackLayout>
+
+        <CollectionView ItemsSource="{Binding Events}"
+                        SelectedItem="{Binding SelectedEvent}"
+                        HeightRequest="300"
+                        SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="#DDD"
+                           CornerRadius="10"
+                           Margin="5"
+                           Padding="10"
+                           BackgroundColor="{AppThemeBinding Light=White, Dark=#333}">
+                        <Label Text="{Binding}"
+                               TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
