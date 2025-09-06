@@ -44,13 +44,13 @@ namespace Family_Rewards_Bank.ViewModels
             WeakReferenceMessenger.Default.Send(new ValueChangedMessage<EventItem>(newEvent));
 
             await Application.Current.MainPage.DisplayAlert("Success", "Event saved!", "OK");
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await Shell.Current.GoToAsync("..");
         }
 
         [RelayCommand]
         private async Task CancelAsync()
         {
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

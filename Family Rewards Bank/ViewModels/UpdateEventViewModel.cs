@@ -11,13 +11,13 @@ namespace Family_Rewards_Bank.ViewModels
 {
     public partial class UpdateEventViewModel : ObservableObject
     {
-        private readonly EventItem _originalEvent;
+        private EventItem _originalEvent;
 
         [ObservableProperty]
-        private DateTime date;
+        private DateTime date = DateTime.Now;
 
         [ObservableProperty]
-        private TimeSpan time;
+        private TimeSpan time = DateTime.Now.TimeOfDay;
 
         [ObservableProperty]
         private string description;
@@ -25,7 +25,17 @@ namespace Family_Rewards_Bank.ViewModels
         [ObservableProperty]
         private string location;
 
-        public UpdateEventViewModel(EventItem eventToUpdate)
+        public UpdateEventViewModel()
+        {
+            // Parameterless constructor for Shell navigation
+        }
+
+        public UpdateEventViewModel(EventItem eventToUpdate) : this()
+        {
+            LoadEvent(eventToUpdate);
+        }
+
+        public void LoadEvent(EventItem eventToUpdate)
         {
             _originalEvent = eventToUpdate;
 
@@ -38,6 +48,12 @@ namespace Family_Rewards_Bank.ViewModels
         [RelayCommand]
         private async Task SaveAsync()
         {
+            if (_originalEvent == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "No event selected for update.", "OK");
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(Description))
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Please enter a description for the event.", "OK");
@@ -54,13 +70,13 @@ namespace Family_Rewards_Bank.ViewModels
             WeakReferenceMessenger.Default.Send(new ValueChangedMessage<EventItem>(_originalEvent));
 
             await Application.Current.MainPage.DisplayAlert("Success", "Event updated!", "OK");
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await Shell.Current.GoToAsync("..");
         }
 
         [RelayCommand]
         private async Task CancelAsync()
         {
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await Shell.Current.GoToAsync("..");
         }
     }
 }
