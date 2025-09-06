@@ -63,7 +63,13 @@ namespace Family_Rewards_Bank.ViewModels
         private async Task UpdateEventAsync()
         {
             if (SelectedEvent == null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Please select an event to update.", "OK");
                 return;
+            }
+
+            // Store the event for the UpdateEventPage to access
+            EventService.SetCurrentEvent(SelectedEvent);
 
             // Передаём событие через параметры Shell
             var route = $"{nameof(UpdateEventPage)}?id={SelectedEvent.Id}";
