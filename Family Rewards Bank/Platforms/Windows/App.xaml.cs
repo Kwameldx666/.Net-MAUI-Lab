@@ -1,4 +1,4 @@
-﻿using Family_Rewards_Bank.Views.Deafult;
+﻿using Family_Rewards_Bank.Views.Default;
 using Microsoft.UI.Xaml;
 
 // To learn more about WinUI, the WinUI project structure,

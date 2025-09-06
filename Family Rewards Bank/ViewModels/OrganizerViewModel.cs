@@ -1,13 +1,15 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 using Family_Rewards_Bank.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Family_Rewards_Bank.ViewModels
 {
-    public partial class OrganizerViewModel : ObservableObject, IRecipient<EventItem>
+    public partial class OrganizerViewModel : ObservableObject, IRecipient<ValueChangedMessage<EventItem>>
     {
         [ObservableProperty]
         private DateTime selectedDate = DateTime.Now;
@@ -19,20 +21,35 @@ namespace Family_Rewards_Bank.ViewModels
 
         public OrganizerViewModel()
         {
-            // подписка на сообщения
+            // Подписка на сообщения
             WeakReferenceMessenger.Default.Register(this);
         }
 
-        // сюда прилетит новое событие
-        public void Receive(EventItem message)
+        // сюда прилетает новое или обновленное событие
+        public void Receive(ValueChangedMessage<EventItem> message)
         {
-            Events.Add(message);
+            var eventItem = message.Value;
+
+            // Проверяем, есть ли событие с таким Id
+            var existingEvent = Events.FirstOrDefault(e => e.Id == eventItem.Id);
+
+            if (existingEvent != null)
+            {
+                // Обновляем в коллекции
+                int index = Events.IndexOf(existingEvent);
+                Events[index] = eventItem;
+            }
+            else
+            {
+                // Новое событие
+                Events.Add(eventItem);
+            }
         }
 
         [RelayCommand]
         private async Task AddEventAsync()
         {
-            await App.Current.MainPage.Navigation.PushAsync(new AddEventPage());
+            await Shell.Current.GoToAsync(nameof(AddEventPage));
         }
 
         [RelayCommand]
@@ -48,8 +65,9 @@ namespace Family_Rewards_Bank.ViewModels
             if (SelectedEvent == null)
                 return;
 
-            var updatePage = new UpdateEventPage(SelectedEvent);
-            await App.Current.MainPage.Navigation.PushAsync(updatePage);
+            // Передаём событие через параметры Shell
+            var route = $"{nameof(UpdateEventPage)}?id={SelectedEvent.Id}";
+            await Shell.Current.GoToAsync(route);
         }
     }
 }

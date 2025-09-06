@@ -9,19 +9,31 @@ using System.Threading.Tasks;
 
 namespace Family_Rewards_Bank.ViewModels
 {
-    public partial class AddEventViewModel : ObservableObject
+    public partial class UpdateEventViewModel : ObservableObject
     {
-        [ObservableProperty]
-        private DateTime date = DateTime.Now;
+        private readonly EventItem _originalEvent;
 
         [ObservableProperty]
-        private TimeSpan time = DateTime.Now.TimeOfDay;
+        private DateTime date;
+
+        [ObservableProperty]
+        private TimeSpan time;
 
         [ObservableProperty]
         private string description;
 
         [ObservableProperty]
         private string location;
+
+        public UpdateEventViewModel(EventItem eventToUpdate)
+        {
+            _originalEvent = eventToUpdate;
+
+            Date = eventToUpdate.Date;
+            Time = eventToUpdate.Time;
+            Description = eventToUpdate.Description;
+            Location = eventToUpdate.Location;
+        }
 
         [RelayCommand]
         private async Task SaveAsync()
@@ -32,18 +44,16 @@ namespace Family_Rewards_Bank.ViewModels
                 return;
             }
 
-            var newEvent = new EventItem
-            {
-                Date = Date,
-                Time = Time,
-                Description = Description,
-                Location = Location
-            };
+            // Обновляем объект
+            _originalEvent.Date = Date;
+            _originalEvent.Time = Time;
+            _originalEvent.Description = Description;
+            _originalEvent.Location = Location;
 
-            // Отправляем сообщение об изменении коллекции
-            WeakReferenceMessenger.Default.Send(new ValueChangedMessage<EventItem>(newEvent));
+            // Отправляем сообщение о том, что событие изменилось
+            WeakReferenceMessenger.Default.Send(new ValueChangedMessage<EventItem>(_originalEvent));
 
-            await Application.Current.MainPage.DisplayAlert("Success", "Event saved!", "OK");
+            await Application.Current.MainPage.DisplayAlert("Success", "Event updated!", "OK");
             await Application.Current.MainPage.Navigation.PopAsync();
         }
 

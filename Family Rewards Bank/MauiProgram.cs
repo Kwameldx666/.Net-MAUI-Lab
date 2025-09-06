@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Family_Rewards_Bank.Views.Deafult
+namespace Family_Rewards_Bank.Views.Default
 {
     public static class MauiProgram
     {

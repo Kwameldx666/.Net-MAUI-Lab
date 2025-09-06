@@ -1,4 +1,4 @@
-﻿using Family_Rewards_Bank.Views.Deafult;
+﻿using Family_Rewards_Bank.Views.Default;
 using Foundation;
 
 namespace Family_Rewards_Bank

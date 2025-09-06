@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Family_Rewards_Bank.ViewModels"
              x:Class="Family_Rewards_Bank.UpdateEventPage"
              Title="Update Event"
              BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#121212}">
+
+    <!-- BindingContext устанавливается в code-behind -->
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
@@ -17,26 +20,26 @@
 
             <!-- Дата события -->
             <Label Text="Date:" FontAttributes="Bold" />
-            <DatePicker x:Name="eventDate"
+            <DatePicker Date="{Binding Date}"
                         BackgroundColor="{AppThemeBinding Light=White, Dark=#222}"
                         TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
             <!-- Время события -->
             <Label Text="Time:" FontAttributes="Bold" />
-            <TimePicker x:Name="eventTime"
+            <TimePicker Time="{Binding Time}"
                         BackgroundColor="{AppThemeBinding Light=White, Dark=#222}"
                         TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
             <!-- Описание события -->
             <Label Text="Description:" FontAttributes="Bold" />
-            <Editor x:Name="eventDescription"
+            <Editor Text="{Binding Description}"
                     HeightRequest="100"
                     BackgroundColor="{AppThemeBinding Light=White, Dark=#222}"
                     TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
             <!-- Место события -->
             <Label Text="Location:" FontAttributes="Bold" />
-            <Entry x:Name="eventLocation"
+            <Entry Text="{Binding Location}"
                    Placeholder="Enter location"
                    BackgroundColor="{AppThemeBinding Light=White, Dark=#222}"
                    TextColor="{AppThemeBinding Light=Black, Dark=White}" />
@@ -47,13 +50,13 @@
                         BackgroundColor="#4CAF50"
                         TextColor="White"
                         WidthRequest="100"
-                        Clicked="SaveButton_Clicked" />
+                        Command="{Binding SaveAsyncCommand}" />
 
                 <Button Text="Cancel"
                         BackgroundColor="#E53935"
                         TextColor="White"
                         WidthRequest="100"
-                        Clicked="CancelButton_Clicked" />
+                        Command="{Binding CancelAsyncCommand}" />
             </HorizontalStackLayout>
 
         </VerticalStackLayout>
