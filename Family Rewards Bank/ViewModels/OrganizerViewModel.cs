@@ -65,8 +65,14 @@ namespace Family_Rewards_Bank.ViewModels
         [RelayCommand]
         public async Task UpdateEventAsync(EventItem eventItem)
         {
+
             if (eventItem == null)
+
                 return;
+            }
+
+            // Store the event for the UpdateEventPage to access
+            EventService.SetCurrentEvent(SelectedEvent);
 
             var page = new UpdateEventPage(eventItem);
             await Application.Current.MainPage.Navigation.PushAsync(page);
