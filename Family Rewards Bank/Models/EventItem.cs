@@ -1,19 +1,24 @@
-﻿namespace Family_Rewards_Bank.Models
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using SQLite;
+namespace Family_Rewards_Bank.Models
 {
-    public class EventItem
+    public partial class EventItem : ObservableObject
     {
-        public string Id { get; set; } = Guid.NewGuid().ToString();
-        public DateTime Date { get; set; }
-        public TimeSpan Time { get; set; }
-        public string Description { get; set; }
-        public string Location { get; set; }
+        [PrimaryKey]
+        public Guid Id { get; set; } = Guid.NewGuid();
 
-        public override string ToString()
-        {
-            string result = $"{Date:d} {Time:hh\\:mm} - {Description}";
-            if (!string.IsNullOrWhiteSpace(Location))
-                result += $" @ {Location}";
-            return result;
-        }
+        [ObservableProperty]
+        private DateTime date;
+
+        [ObservableProperty]
+        private TimeSpan time;
+
+        [ObservableProperty]
+        private string description;
+
+        [ObservableProperty]
+        private string location;
+        public bool HasLocation => !string.IsNullOrWhiteSpace(Location);
     }
 }

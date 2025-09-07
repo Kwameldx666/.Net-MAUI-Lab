@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;net8.0-maccatalyst</TargetFrameworks>
@@ -63,10 +63,11 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\Lab2\UpdateEventPage.xaml.cs">
+	  <Compile Update="Views\Organizer\UpdateEventPage.xaml.cs">
 	    <DependentUpon>UpdateEventPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\Lab2\Organizer.xaml.cs">

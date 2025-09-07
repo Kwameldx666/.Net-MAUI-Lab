@@ -11,6 +11,7 @@ namespace Family_Rewards_Bank
         public Organizer()
         {
             InitializeComponent();
+            BindingContext = new OrganizerViewModel();
         }
     }
 

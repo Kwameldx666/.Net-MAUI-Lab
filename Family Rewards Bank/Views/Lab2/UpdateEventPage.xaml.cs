@@ -1,5 +1,7 @@
+using CommunityToolkit.Mvvm.Messaging;
 using Family_Rewards_Bank.Models;
 using Family_Rewards_Bank.ViewModels;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls;
 
 namespace Family_Rewards_Bank
@@ -62,4 +64,5 @@ namespace Family_Rewards_Bank
             return _currentEvent?.Id == id ? _currentEvent : null;
         }
     }
+
 }
