@@ -1,73 +1,110 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Family_Rewards_Bank.ViewModels"
              x:Class="Family_Rewards_Bank.Organizer"
+             x:Name="OrganizerPage"
              BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#121212}"
              Title="My Organizer">
 
-    <VerticalStackLayout Padding="20" Spacing="20">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="20">
 
-        <Label Text="My Organizer"
-               FontSize="28"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               TextColor="{AppThemeBinding Light=#222, Dark=#EEE}" />
+                <Label Text="My Organizer"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light=#222, Dark=#EEE}" />
 
-        <DatePicker Date="{Binding SelectedDate}"
-                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                    BackgroundColor="{AppThemeBinding Light=White, Dark=#222}" />
+                <DatePicker Date="{Binding SelectedDate}"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                            BackgroundColor="{AppThemeBinding Light=White, Dark=#222}"
+                            Margin="0,0,0,10"
+                            HeightRequest="50" />
 
-        <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
-            <Button Text="Add"
-                    BackgroundColor="#4CAF50"
-                    TextColor="White"
-                    WidthRequest="90"
-                    Command="{Binding AddEventCommand}" />
+                <CollectionView ItemsSource="{Binding Events}"
+                                SelectedItem="{Binding SelectedEvent}"
+                                SelectionMode="Single"
+                                Margin="0,10,0,0"
+                                HeightRequest="400">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame CornerRadius="15"
+                                   Margin="5"
+                                   Padding="15"
+                                   HasShadow="True"
+                                   BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+                                   BorderColor="{AppThemeBinding Light=#DDD, Dark=#333}">
 
-            <Button Text="Remove"
-                    BackgroundColor="#E53935"
-                    TextColor="White"
-                    WidthRequest="90"
-                    Command="{Binding RemoveEventCommand}" />
+                                <Grid ColumnDefinitions="*, Auto, Auto" RowDefinitions="Auto, Auto, Auto" RowSpacing="10">
 
-            <Button Text="Update"
-                    BackgroundColor="#007ACC"
-                    TextColor="White"
-                    WidthRequest="90"
-                    Command="{Binding UpdateEventCommand  }" />
-        </HorizontalStackLayout>
+                                    <Label Grid.Column="0" Grid.Row="0"
+                                           Text="{Binding Description}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-        <CollectionView ItemsSource="{Binding Events}"
-                SelectedItem="{Binding SelectedEvent}"
-                HeightRequest="300"
-                SelectionMode="Single">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BorderColor="#DDD"
-                   CornerRadius="10"
-                   Margin="5"
-                   Padding="10"
-                   BackgroundColor="{AppThemeBinding Light=White, Dark=#333}">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Description}" 
-                           FontSize="16"
-                           FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light=Black, Dark=White}" />
-                            <Label>
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding Date, StringFormat='{0:d}'}" />
-                                        <Span Text=" at " />
-                                        <Span Text="{Binding Time, StringFormat='{0:hh\\:mm}'}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Text="{Binding Location}" 
-                           IsVisible="{Binding Location, Converter={StaticResource StringNotEmptyConverter}}" />
-                        </VerticalStackLayout>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+                                    <Label Grid.Column="0" Grid.Row="1"
+                                           TextColor="{AppThemeBinding Light=#555, Dark=#AAA}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Date, StringFormat='{0:d}'}" />
+                                                <Span Text=" at " />
+                                                <Span Text="{Binding Time, StringFormat='{0:hh\\:mm}'}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Label Grid.Column="0" Grid.Row="2"
+                                           Text="{Binding Location}"
+                                           TextColor="{AppThemeBinding Light=#666, Dark=#BBB}"
+                                           IsVisible="{Binding HasLocation}" />
+
+                                    <HorizontalStackLayout Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="3"
+                                                           Spacing="10" 
+                                                           VerticalOptions="Center">
+                                        <Button Text="✎"
+                                                WidthRequest="45"
+                                                HeightRequest="45"
+                                                CornerRadius="10"
+                                                BackgroundColor="#007ACC"
+                                                TextColor="White"
+                                                Shadow="1,1,3,#00000033"
+                                                Command="{Binding Source={x:Reference OrganizerPage}, Path=BindingContext.UpdateEventCommand}"
+                                                CommandParameter="{Binding .}" />
+
+                                        <Button Text="🗑"
+                                                WidthRequest="45"
+                                                HeightRequest="45"
+                                                CornerRadius="10"
+                                                BackgroundColor="#E53935"
+                                                TextColor="White"
+                                                Shadow="1,1,3,#00000033"
+                                                Command="{Binding Source={x:Reference OrganizerPage}, Path=BindingContext.RemoveEventCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </HorizontalStackLayout>
+
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Button Text="+"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                FontSize="30"
+                Shadow="2,2,5,#00000055"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="20"
+                Command="{Binding AddEventCommand}" />
+
+    </Grid>
 </ContentPage>

@@ -63,12 +63,12 @@ namespace Family_Rewards_Bank.ViewModels
 
 
         [RelayCommand]
-        public async Task UpdateEventAsync()
+        public async Task UpdateEventAsync(EventItem eventItem)
         {
-            if (SelectedEvent == null)
+            if (eventItem == null)
                 return;
 
-            var page = new UpdateEventPage(SelectedEvent);
+            var page = new UpdateEventPage(eventItem);
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
 

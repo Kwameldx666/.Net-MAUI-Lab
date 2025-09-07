@@ -21,8 +21,6 @@
         ContentTemplate="{DataTemplate local:AddEventPage}"
         Route="AddEventPage"/>
     <ShellContent
-        Title="Update data"
-        ContentTemplate="{DataTemplate local:UpdateEventPage}"
         Route="UpdateEventPage"/>
 
 </Shell>
