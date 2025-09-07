@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
+using Family_Rewards_Bank.Data;
 using Family_Rewards_Bank.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Family_Rewards_Bank.ViewModels
 {
-    public partial class OrganizerViewModel : ObservableObject, IRecipient<ValueChangedMessage<EventItem>>
+    public partial class OrganizerViewModel : ObservableObject
     {
         [ObservableProperty]
         private DateTime selectedDate = DateTime.Now;
@@ -17,57 +18,59 @@ namespace Family_Rewards_Bank.ViewModels
         [ObservableProperty]
         private EventItem selectedEvent;
 
-        public ObservableCollection<EventItem> Events { get; } = new();
-
+        private readonly TodoDatabase _dbConnection;
+        public ObservableCollection<EventItem> Events { get; private set; } = new();
         public OrganizerViewModel()
         {
-            // Подписка на сообщения
-            WeakReferenceMessenger.Default.Register(this);
+
+            _dbConnection = new TodoDatabase();
+             LoadItems();
+        }
+        [RelayCommand]
+        private async Task LoadItems()
+        {
+            var items = await _dbConnection.GetItemsAsync();
+
+            Events.Clear();
+            foreach (var item in items)
+                Events.Add(item);
         }
 
-        // сюда прилетает новое или обновленное событие
-        public void Receive(ValueChangedMessage<EventItem> message)
+        [RelayCommand]
+        public async Task AddEventAsync()
         {
-            var eventItem = message.Value;
-
-            // Проверяем, есть ли событие с таким Id
-            var existingEvent = Events.FirstOrDefault(e => e.Id == eventItem.Id);
-
-            if (existingEvent != null)
+            await Shell.Current.GoToAsync("//AddEventPage");
+        }
+        [RelayCommand]
+        public void RemoveEvent(EventItem eventItem)
+        {
+            if (eventItem != null)
             {
-                // Обновляем в коллекции
-                int index = Events.IndexOf(existingEvent);
-                Events[index] = eventItem;
+                try
+                {
+                    // Удаляем из базы
+                    _dbConnection.DeleteItem(eventItem.Id);
+
+                    // Удаляем из ObservableCollection
+                    Events.Remove(eventItem);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
             }
-            else
-            {
-                // Новое событие
-                Events.Add(eventItem);
-            }
         }
 
-        [RelayCommand]
-        private async Task AddEventAsync()
-        {
-            await Shell.Current.GoToAsync(nameof(AddEventPage));
-        }
 
         [RelayCommand]
-        private void RemoveEvent()
-        {
-            if (SelectedEvent != null)
-                Events.Remove(SelectedEvent);
-        }
-
-        [RelayCommand]
-        private async Task UpdateEventAsync()
+        public async Task UpdateEventAsync()
         {
             if (SelectedEvent == null)
                 return;
 
-            // Передаём событие через параметры Shell
-            var route = $"{nameof(UpdateEventPage)}?id={SelectedEvent.Id}";
-            await Shell.Current.GoToAsync(route);
+            var page = new UpdateEventPage(SelectedEvent);
+            await Application.Current.MainPage.Navigation.PushAsync(page);
         }
+
     }
 }

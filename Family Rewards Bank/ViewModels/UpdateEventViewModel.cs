@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
+using Family_Rewards_Bank.Data;
 using Family_Rewards_Bank.Models;
 using Microsoft.Maui.Controls;
 using System;
@@ -12,7 +13,7 @@ namespace Family_Rewards_Bank.ViewModels
     public partial class UpdateEventViewModel : ObservableObject
     {
         private readonly EventItem _originalEvent;
-
+        private readonly TodoDatabase _todoDatabase;
         [ObservableProperty]
         private DateTime date;
 
@@ -33,6 +34,7 @@ namespace Family_Rewards_Bank.ViewModels
             Time = eventToUpdate.Time;
             Description = eventToUpdate.Description;
             Location = eventToUpdate.Location;
+            _todoDatabase = new();
         }
 
         [RelayCommand]
@@ -50,8 +52,15 @@ namespace Family_Rewards_Bank.ViewModels
             _originalEvent.Description = Description;
             _originalEvent.Location = Location;
 
-            // Отправляем сообщение о том, что событие изменилось
-            WeakReferenceMessenger.Default.Send(new ValueChangedMessage<EventItem>(_originalEvent));
+            try
+            {
+                await _todoDatabase.SaveItem(_originalEvent);
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Mistake", ex.Message, "X");
+            }
+
 
             await Application.Current.MainPage.DisplayAlert("Success", "Event updated!", "OK");
             await Application.Current.MainPage.Navigation.PopAsync();

@@ -5,10 +5,6 @@
              BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#121212}"
              Title="My Organizer">
 
-    <ContentPage.BindingContext>
-        <vm:OrganizerViewModel />
-    </ContentPage.BindingContext>
-
     <VerticalStackLayout Padding="20" Spacing="20">
 
         <Label Text="My Organizer"
@@ -26,7 +22,7 @@
                     BackgroundColor="#4CAF50"
                     TextColor="White"
                     WidthRequest="90"
-                    Command="{Binding AddEventAsyncCommand}" />
+                    Command="{Binding AddEventCommand}" />
 
             <Button Text="Remove"
                     BackgroundColor="#E53935"
@@ -38,7 +34,7 @@
                     BackgroundColor="#007ACC"
                     TextColor="White"
                     WidthRequest="90"
-                    Command="{Binding UpdateEventAsyncCommand}" />
+                    Command="{Binding UpdateEventCommand  }" />
         </HorizontalStackLayout>
 
         <CollectionView ItemsSource="{Binding Events}"

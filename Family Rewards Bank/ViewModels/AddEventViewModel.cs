@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
+using Family_Rewards_Bank.Data;
 using Family_Rewards_Bank.Models;
-using Microsoft.Maui.Controls;
 using System;
 using System.Threading.Tasks;
 
@@ -11,6 +11,10 @@ namespace Family_Rewards_Bank.ViewModels
 {
     public partial class AddEventViewModel : ObservableObject
     {
+        public AddEventViewModel()
+        {
+            db = new();
+        }
         [ObservableProperty]
         private DateTime date = DateTime.Now;
 
@@ -18,39 +22,41 @@ namespace Family_Rewards_Bank.ViewModels
         private TimeSpan time = DateTime.Now.TimeOfDay;
 
         [ObservableProperty]
-        private string description;
+        private string? description;
 
         [ObservableProperty]
-        private string location;
+        private string? location;
+
+        private readonly TodoDatabase db;
+
 
         [RelayCommand]
-        private async Task SaveAsync()
+        public async Task Save()
         {
-            if (string.IsNullOrWhiteSpace(Description))
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", "Please enter a description for the event.", "OK");
-                return;
-            }
-
             var newEvent = new EventItem
             {
-                Date = Date,
-                Time = Time,
+                Id = Guid.NewGuid(),
+                Date = Date,     // Date уже DateTime
+                Time = Time,     // Time уже TimeSpan
                 Description = Description,
                 Location = Location
             };
+            try
+            {
+                await db.SaveItem(newEvent);
+            }
+            catch (Exception ex)
+            {
+               await Application.Current.MainPage.DisplayAlert("Mistake", ex.Message,"X");
+            }
 
-            // Отправляем сообщение об изменении коллекции
-            WeakReferenceMessenger.Default.Send(new ValueChangedMessage<EventItem>(newEvent));
-
-            await Application.Current.MainPage.DisplayAlert("Success", "Event saved!", "OK");
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await Shell.Current.GoToAsync("//Organizer");
         }
 
         [RelayCommand]
-        private async Task CancelAsync()
+        public async Task Cancel()
         {
-            await Application.Current.MainPage.Navigation.PopAsync();
+            await Shell.Current.GoToAsync("//Organizer");
         }
     }
 }

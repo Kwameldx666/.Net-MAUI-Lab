@@ -50,13 +50,13 @@
                         BackgroundColor="#4CAF50"
                         TextColor="White"
                         WidthRequest="100"
-                        Command="{Binding SaveAsyncCommand}" />
+                        Command="{Binding SaveCommand}" />
 
                 <Button Text="Cancel"
                         BackgroundColor="#E53935"
                         TextColor="White"
                         WidthRequest="100"
-                        Command="{Binding CancelAsyncCommand}" />
+                        Command="{Binding CancelCommand}" />
             </HorizontalStackLayout>
 
         </VerticalStackLayout>

@@ -15,5 +15,14 @@
         Title="Organizer"
         ContentTemplate="{DataTemplate local:Organizer}"
         Route="Organizer"/>
+    
+    <ShellContent
+        Title="Add data"
+        ContentTemplate="{DataTemplate local:AddEventPage}"
+        Route="AddEventPage"/>
+    <ShellContent
+        Title="Update data"
+        ContentTemplate="{DataTemplate local:UpdateEventPage}"
+        Route="UpdateEventPage"/>
 
 </Shell>

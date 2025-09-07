@@ -6,10 +6,6 @@
              Title="Add Event"
              BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#121212}">
 
-    <ContentPage.BindingContext>
-        <vm:AddEventViewModel />
-    </ContentPage.BindingContext>
-
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
             <!-- Заголовок -->
@@ -51,13 +47,13 @@
                         BackgroundColor="#4CAF50"
                         TextColor="White"
                         WidthRequest="100"
-                        Command="{Binding SaveAsyncCommand}" />
+                        Command="{Binding SaveCommand}" />
 
                 <Button Text="Cancel"
                         BackgroundColor="#E53935"
                         TextColor="White"
                         WidthRequest="100"
-                        Command="{Binding CancelAsyncCommand}" />
+                        Command="{Binding CancelCommand}" />
             </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
