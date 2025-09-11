@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Family_Rewards_Bank.Views.Lab3.WebServiceEmulation"
+             Title="Новости"
+             BackgroundColor="#F5F5F5">
+
+    <Grid Padding="15" RowDefinitions="Auto, Auto, *">
+
+        <!-- Заголовок -->
+        <Label Text="Последние новости"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#333"
+               Grid.Row="0"
+               Margin="0,10"/>
+
+        <!-- Горизонтальный список источников -->
+        <CollectionView ItemsSource="{Binding AvailableSources}"
+                SelectedItem="{Binding SelectedSource}"
+                SelectionMode="Single"
+                Grid.Row="1"
+                Margin="0,10">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10,5"
+                   CornerRadius="15"
+                   HasShadow="False"
+                   BackgroundColor="#E0E0E0">
+                        <Frame.Triggers>
+                            <DataTrigger TargetType="Frame"
+                                 Binding="{Binding Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=SelectedItem}"
+                                 Value="{Binding .}">
+                                <Setter Property="BackgroundColor" Value="#2196F3"/>
+                            </DataTrigger>
+                        </Frame.Triggers>
+
+                        <Label Text="{Binding .}"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       TextColor="Black">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label"
+                                     Binding="{Binding Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=SelectedItem}"
+                                     Value="{Binding .}">
+                                    <Setter Property="TextColor" Value="White"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Список новостей -->
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding News}"
+                        VerticalOptions="FillAndExpand"
+                        SelectionMode="None"
+                        Margin="0,10">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="5,10"
+                           Padding="15"
+                           CornerRadius="15"
+                           HasShadow="True"
+                           BackgroundColor="White">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="{Binding Name}"
+                                   FontSize="12"
+                                   FontAttributes="Italic"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="#222"/>
+                            <Label Text="{Binding Title}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="#222"/>
+                            <Label Text="{Binding Updated, StringFormat='{0:dd.MM.yyyy HH:mm}'}"
+                                   FontSize="12"
+                                   TextColor="#666"/>
+                            <Label Text="{Binding Description}"
+                                   FontSize="14"
+                                   LineBreakMode="WordWrap"
+                                   MaxLines="3"
+                                   TextColor="#444"/>
+                            <Button Text="Читать далее"
+                                    FontSize="13"
+                                    CornerRadius="20"
+                                    Padding="10,5"
+                                    HorizontalOptions="End"
+                                    BackgroundColor="#2196F3"
+                                    TextColor="White"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.OpenNewsCommand}"
+                                    CommandParameter="{Binding Url}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>

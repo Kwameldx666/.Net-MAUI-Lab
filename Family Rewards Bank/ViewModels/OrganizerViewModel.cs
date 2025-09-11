@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using Family_Rewards_Bank.Data;
 using Family_Rewards_Bank.Models;
+using Family_Rewards_Bank.Views.Lab3;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,8 +27,10 @@ namespace Family_Rewards_Bank.ViewModels
             _dbConnection = new TodoDatabase();
              LoadItems();
         }
+
+
         [RelayCommand]
-        private async Task LoadItems()
+        public async Task LoadItems()
         {
             var items = await _dbConnection.GetItemsAsync();
 
@@ -39,7 +42,7 @@ namespace Family_Rewards_Bank.ViewModels
         [RelayCommand]
         public async Task AddEventAsync()
         {
-            await Shell.Current.GoToAsync("//AddEventPage");
+            await Shell.Current.GoToAsync(nameof(AddEventPage), true);
         }
         [RelayCommand]
         public void RemoveEvent(EventItem eventItem)
@@ -77,6 +80,13 @@ namespace Family_Rewards_Bank.ViewModels
             var page = new UpdateEventPage(eventItem);
             await Application.Current.MainPage.Navigation.PushAsync(page);
         }
+        [RelayCommand]
+        private async Task GoToNews()
+        {
+            await Shell.Current.GoToAsync(nameof(WebServiceEmulation));
+        }
+
+       
 
     }
 }
