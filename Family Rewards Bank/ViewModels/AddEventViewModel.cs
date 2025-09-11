@@ -50,13 +50,18 @@ namespace Family_Rewards_Bank.ViewModels
                await Application.Current.MainPage.DisplayAlert("Mistake", ex.Message,"X");
             }
 
+
             await Shell.Current.GoToAsync("//Organizer");
+
+        
         }
 
         [RelayCommand]
         public async Task Cancel()
         {
+
             await Shell.Current.GoToAsync("//Organizer");
+
         }
     }
 }
