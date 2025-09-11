@@ -13,6 +13,15 @@ namespace Family_Rewards_Bank
             InitializeComponent();
             BindingContext = new OrganizerViewModel();
         }
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (BindingContext is OrganizerViewModel vm)
+            {
+                await vm.LoadItems();
+            }
+        }
     }
 
 }

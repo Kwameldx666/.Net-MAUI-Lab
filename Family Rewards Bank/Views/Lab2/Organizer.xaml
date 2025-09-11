@@ -6,6 +6,14 @@
              BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#121212}"
              Title="My Organizer">
 
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Новости"
+                     IconImageSource="news.png"
+                     Order="Primary"
+                     Priority="0"
+                     Command="{Binding GoToNewsCommand}" />
+    </ContentPage.ToolbarItems>
     <Grid>
         <ScrollView>
             <VerticalStackLayout Padding="20" Spacing="20">

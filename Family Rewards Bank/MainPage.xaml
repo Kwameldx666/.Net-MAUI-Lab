@@ -4,6 +4,12 @@
              x:Class="Family_Rewards_Bank.MainPage"
              BackgroundColor="{AppThemeBinding Light=White, Dark=#121212}">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Organizer"
+                     Order="Primary"
+                     Priority="0"
+                     Command="{Binding OpenOrganizerCommand}" />
+    </ContentPage.ToolbarItems>
     <ScrollView>
         <Grid 
             Padding="{OnIdiom Phone='20,15', Tablet='30,20', Default='40,30'}"
@@ -38,28 +44,18 @@
                            HorizontalOptions="Center"
                            Grid.Column="0"/>
 
-                        <Button Text="Open Organizer" 
-                                Clicked="openOrganizer_Clicked" 
-                                HorizontalOptions="End"
-                                Grid.Column="1"
-                                BackgroundColor="AntiqueWhite">
-                            <Button.Triggers>
-                                <Trigger TargetType="Button" Property="IsPressed" Value="True">
-                                    <Setter Property="Scale" Value="0.98"/>
-                                </Trigger>
-                            </Button.Triggers>
-                        </Button>
+
                     </Grid>
 
                     <!-- Радио-кнопки с адаптивным расположением -->
                     <FlexLayout 
                         JustifyContent="SpaceEvenly">
-                        <RadioButton x:Name="radioButton1" 
+                        <RadioButton 
                                      Content="Front Camera" 
                                      GroupName="Camera"
                                      CheckedChanged="Camera_CheckedChanged"
                                      Scale="{OnIdiom Phone=0.9, Default=1.0}"/>
-                        <RadioButton x:Name="radioButton2" 
+                        <RadioButton 
                                      Content="Back Camera" 
                                      GroupName="Camera"
                                      CheckedChanged="Camera_CheckedChanged"
@@ -71,14 +67,14 @@
                           RowDefinitions="Auto" 
                           ColumnSpacing="10" 
                           Margin="0">
-                        <Entry x:Name="inputEntry"
+                        <Entry Text="{Binding SearchText}"
                                Placeholder="Enter text"
                                BackgroundColor="{AppThemeBinding Light=#f5f5f5, Dark=#333}"
                                TextColor="{AppThemeBinding Light=Black, Dark=White}"
                                HeightRequest="{OnIdiom Phone=40, Default=45}"
                                Grid.Column="0"/>
                         <Button x:Name="searchInGoogle"   
-                                Clicked="buttonSearchInGoogleCheck_Clicked" 
+                                Command="{Binding SearchInGoogleCommand}"
                                 BackgroundColor="{AppThemeBinding Light=#007ACC, Dark=#0099FF}"
                                 Text="Search"
                                 FontAttributes="Bold"
@@ -90,9 +86,9 @@
 
                     <!-- Адаптивные кнопки действий -->
                     <VerticalStackLayout Spacing="{OnIdiom Phone=8, Default=12}">
-                        <Button x:Name="buttonShowInfo" 
+                        <Button 
                                 Text="Show Alert"
-                                Clicked="buttonShowInfoCheck_Clicked"
+                                Command="{Binding ShowAlertCommand}"
                                 BackgroundColor="{AppThemeBinding Light=#4CAF50, Dark=#388E3C}" 
                                 TextColor="White"
                                 CornerRadius="12"
@@ -104,13 +100,14 @@
                             </Button.Triggers>
                         </Button>
 
-                        <Button x:Name="buttonPhoto" 
+                        <Button 
                                 Text="Take a Photo"
-                                Clicked="TakePhotoButton_Clicked"
                                 BackgroundColor="{AppThemeBinding Light=#FF9800, Dark=#F57C00}" 
                                 TextColor="White"
                                 CornerRadius="12"
-                                HeightRequest="{OnIdiom Phone=40, Default=45}">
+                                HeightRequest="{OnIdiom Phone=40, Default=45}"
+                                Command="{Binding TakePhotoCommand}">
+
                             <Button.Triggers>
                                 <Trigger TargetType="Button" Property="IsPressed" Value="True">
                                     <Setter Property="Scale" Value="0.98"/>
