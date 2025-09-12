@@ -22,5 +22,10 @@
         Route="AddEventPage"/>
     <ShellContent
         Route="UpdateEventPage"/>
+        
+    <ShellContent
+        Title="Medical Request"
+        ContentTemplate="{DataTemplate local:RequestPage}"
+        Route="RequestPage"/>
 
 </Shell>

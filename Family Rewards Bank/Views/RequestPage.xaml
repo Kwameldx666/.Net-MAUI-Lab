@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Family_Rewards_Bank.ViewModels"
+             x:Class="Family_Rewards_Bank.RequestPage"
+             Title="Medical Request"
+             BackgroundColor="{AppThemeBinding Light=#F9F9F9, Dark=#121212}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            
+            <!-- Header -->
+            <Label Text="Medical Request Form"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="#4CAF50"
+                   Margin="0,0,0,10" />
+
+            <!-- Name Field -->
+            <StackLayout Spacing="5">
+                <Label Text="Name:" 
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#222, Dark=#EEE}" />
+                <Frame BorderColor="#CCCCCC" 
+                       CornerRadius="8" 
+                       Padding="0" 
+                       HasShadow="False"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#333}">
+                    <Entry Text="{Binding Name}"
+                           Placeholder="Enter your full name"
+                           TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                           BackgroundColor="Transparent"
+                           Margin="10,5" />
+                </Frame>
+            </StackLayout>
+
+            <!-- Disease Field -->
+            <StackLayout Spacing="5">
+                <Label Text="Disease:" 
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#222, Dark=#EEE}" />
+                <Frame BorderColor="#CCCCCC" 
+                       CornerRadius="8" 
+                       Padding="0" 
+                       HasShadow="False"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#333}">
+                    <Entry Text="{Binding Illness}"
+                           Placeholder="Enter disease/condition"
+                           TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                           BackgroundColor="Transparent"
+                           Margin="10,5" />
+                </Frame>
+            </StackLayout>
+
+            <!-- Location Field -->
+            <StackLayout Spacing="5">
+                <Label Text="Location:" 
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#222, Dark=#EEE}" />
+                <Frame BorderColor="#CCCCCC" 
+                       CornerRadius="8" 
+                       Padding="0" 
+                       HasShadow="False"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#333}">
+                    <Entry Text="{Binding Location}"
+                           Placeholder="Enter your location"
+                           TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                           BackgroundColor="Transparent"
+                           Margin="10,5" />
+                </Frame>
+            </StackLayout>
+
+            <!-- Description Field -->
+            <StackLayout Spacing="5">
+                <Label Text="Description:" 
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#222, Dark=#EEE}" />
+                <Frame BorderColor="#CCCCCC" 
+                       CornerRadius="8" 
+                       Padding="0" 
+                       HasShadow="False"
+                       BackgroundColor="{AppThemeBinding Light=White, Dark=#333}">
+                    <Editor Text="{Binding Description}"
+                            Placeholder="Describe your condition and symptoms in detail..."
+                            HeightRequest="120"
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                            BackgroundColor="Transparent"
+                            Margin="10,5" />
+                </Frame>
+            </StackLayout>
+
+            <!-- Buttons -->
+            <VerticalStackLayout Spacing="15" Margin="0,20,0,0">
+                <Button Text="VERY URGENT"
+                        BackgroundColor="#FF5722"
+                        TextColor="White"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        Command="{Binding MarkAsUrgentCommand}" />
+
+                <Button Text="Request"
+                        BackgroundColor="#4CAF50"
+                        TextColor="White"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        CornerRadius="25"
+                        HeightRequest="50"
+                        Command="{Binding SubmitRequestCommand}" />
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
