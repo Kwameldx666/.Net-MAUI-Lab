@@ -12,6 +12,7 @@ namespace Family_Rewards_Bank
             Routing.RegisterRoute(nameof(AddEventPage), typeof(AddEventPage));
             Routing.RegisterRoute(nameof(UpdateEventPage), typeof(UpdateEventPage));
             Routing.RegisterRoute(nameof(WebServiceEmulation), typeof(WebServiceEmulation));
+            Routing.RegisterRoute(nameof(RequestPage), typeof(RequestPage));
         
 
 
